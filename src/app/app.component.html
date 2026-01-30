@@ -1,307 +1,90 @@
+<app-header [state]="state"></app-header>
+
 <div class="app-shell">
-  <header class="top-bar">
-    <div class="brand">
-      <span class="brand-mark"></span>
-      <div class="brand-text">
-        <span class="brand-name">{{ state.brand }}</span>
-        <span class="brand-sub">Personal budget workspace</span>
-      </div>
-    </div>
-    <div class="top-actions">
-      <div class="household-pill">
-        <span class="dot"></span>
-        {{ state.householdName || 'No household yet' }}
-      </div>
-      <button class="btn btn-dark btn-sm" [disabled]="!state.onboarded">Add transaction</button>
-    </div>
-  </header>
-
-  <main>
-    @if (!state.onboarded) {
-      <section class="wizard">
-        <div class="wizard-card">
-          <div class="wizard-copy">
-            <p class="eyebrow">Start from scratch</p>
-            <h1>Build a budget that fits your household.</h1>
-            <p class="lead">
-              Answer a few basics. We will only show the dashboard after your setup is saved.
-            </p>
-          </div>
-          <form class="wizard-form" [formGroup]="wizardForm" (ngSubmit)="completeWizard()">
-            <div>
-              <label class="form-label">Household name</label>
-              <input class="form-control" formControlName="householdName" placeholder="Smith Household">
-              @if (wizardForm.get('householdName')?.touched && wizardForm.get('householdName')?.invalid) {
-                <div class="form-error">Required.</div>
-              }
-            </div>
-            <div>
-              <label class="form-label">Primary budget name</label>
-              <input class="form-control" formControlName="budgetName" placeholder="Family Budget">
-              @if (wizardForm.get('budgetName')?.touched && wizardForm.get('budgetName')?.invalid) {
-                <div class="form-error">Required.</div>
-              }
-            </div>
-            <div>
-              <label class="form-label">Budget style</label>
-              <select class="form-select" formControlName="budgetStyle">
-                <option value="">Select one</option>
-                <option value="Zero-based">Zero-based</option>
-                <option value="50/30/20">50/30/20</option>
-                <option value="Envelope">Envelope</option>
-                <option value="Custom">Custom</option>
-              </select>
-              @if (wizardForm.get('budgetStyle')?.touched && wizardForm.get('budgetStyle')?.invalid) {
-                <div class="form-error">Required.</div>
-              }
-            </div>
-            <div>
-              <label class="form-label">Budget month</label>
-              <input class="form-control" formControlName="budgetMonth" placeholder="February 2026">
-              @if (wizardForm.get('budgetMonth')?.touched && wizardForm.get('budgetMonth')?.invalid) {
-                <div class="form-error">Required.</div>
-              }
-            </div>
-            <div>
-              <label class="form-label">Income frequency</label>
-              <select class="form-select" formControlName="incomeFrequency">
-                <option value="">Select one</option>
-                <option value="Monthly">Monthly</option>
-                <option value="Bi-weekly">Bi-weekly</option>
-                <option value="Semi-monthly">Semi-monthly</option>
-                <option value="Weekly">Weekly</option>
-                <option value="Custom">Custom</option>
-              </select>
-              @if (wizardForm.get('incomeFrequency')?.touched && wizardForm.get('incomeFrequency')?.invalid) {
-                <div class="form-error">Required.</div>
-              }
-            </div>
-            <div>
-              <label class="form-label">Income amount (per pay period)</label>
-              <input class="form-control" type="number" formControlName="incomeAmount" placeholder="0">
-            </div>
-            <div class="wizard-actions">
-              <button class="btn btn-primary btn-lg" type="submit">Save and continue</button>
-              <button class="btn btn-outline-dark btn-lg" type="button" (click)="resetState()">
-                Start over
-              </button>
-              <button class="btn btn-outline-dark btn-lg" type="button" (click)="loadSample()">
-                Load sample data
-              </button>
-            </div>
-          </form>
-        </div>
-      </section>
-    } @else {
-      <section class="hero">
-        <div class="hero-copy">
-          <p class="eyebrow">Budget overview</p>
-          <h1>{{ state.budgetName }}</h1>
-          <p class="lead">
-            Household: {{ state.householdName }} · Style: {{ state.budgetStyle }} · {{ state.budgetMonth }}
-          </p>
-          <div class="hero-meta">
-            <div class="meta-card">
-              <span class="label">Income frequency</span>
-              <strong>{{ state.incomeFrequency }}</strong>
-            </div>
-            <div class="meta-card">
-              <span class="label">Income per period</span>
-              <strong>{{ formatMoney(state.incomeAmount) }}</strong>
-            </div>
-            <div class="meta-card">
-              <span class="label">Safe to spend</span>
-              <strong>{{ formatMoney(state.safeToSpend) }}</strong>
-            </div>
-          </div>
-          <div class="hero-cta">
-            <button class="btn btn-primary btn-lg">Add categories</button>
-            <button class="btn btn-outline-dark btn-lg">Add transactions</button>
-          </div>
-        </div>
-        <div class="hero-panel">
-          <div class="panel-header">
-            <div>
-              <h2>Next steps</h2>
-              <p>Start with categories and your first transactions.</p>
-            </div>
-            <span class="chip">Empty state</span>
-          </div>
-          <div class="panel-steps">
-            <div class="step-card">
-              <div class="step-index">1</div>
-              <div>
-                <h3>Create categories</h3>
-                <p>Housing, groceries, utilities, debt, savings.</p>
-              </div>
-            </div>
-            <div class="step-card">
-              <div class="step-index">2</div>
-              <div>
-                <h3>Add income + bills</h3>
-                <p>Track paychecks and recurring expenses.</p>
-              </div>
-            </div>
-            <div class="step-card">
-              <div class="step-index">3</div>
-              <div>
-                <h3>Review monthly plan</h3>
-                <p>Use the dashboard to adjust and stay on target.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="summary">
-        <div class="section-title">
-          <h2>Budget overview</h2>
-          <p>Once you add categories, this section will populate.</p>
-        </div>
-        <div class="empty-card">
-          <p>No budget data yet. Add categories and transactions to see progress.</p>
-        </div>
-      </section>
-
-      <section class="budget-plan">
-        <div class="section-title">
-          <h2>Category plan</h2>
-          <p>Create your first categories to get started.</p>
-        </div>
-        @if (state.categories.length === 0) {
-          <div class="empty-card">
-            <p>No categories yet.</p>
-          </div>
-        } @else {
-          <div class="plan-grid">
-            @for (item of state.categories; track item.name) {
-              <div class="plan-card">
-                <div class="plan-head">
-                  <div>
-                    <h3>{{ item.name }}</h3>
-                    <p class="label">Target {{ formatMoney(item.target) }}</p>
-                  </div>
-                  <span class="trend {{ item.tone }}">{{ item.trend }}</span>
+    <main>
+        <section class="wizard">
+            <div class="wizard-card">
+                <div class="wizard-copy">
+                    <p class="eyebrow">Start from scratch</p>
+                    <h1>Build a budget that fits your household.</h1>
+                    <p class="lead">
+                        Answer a few basics. This is the foundation for your budget plan.
+                    </p>
+                    @if (state.onboarded) {
+                        <div class="wizard-status">
+                            Saved to this device. Reset to edit these fields.
+                        </div>
+                    }
                 </div>
-                <div class="plan-progress">
-                  <div class="progress-bar">
-                    <span
-                      class="bar {{ item.tone }}"
-                      [style.width.%]="percent(item.spent, item.target)"
-                    ></span>
-                  </div>
-                  <div class="progress-meta">
-                    <span>{{ formatMoney(item.spent) }} spent</span>
-                    <span>{{ percent(item.spent, item.target) }}%</span>
-                  </div>
-                </div>
-              </div>
-            }
-          </div>
-        }
-      </section>
-
-      <section class="transactions">
-        <div class="section-title">
-          <h2>Recent activity</h2>
-          <p>Manual entries will appear here.</p>
-        </div>
-        @if (state.transactions.length === 0) {
-          <div class="empty-card">
-            <p>No transactions yet.</p>
-          </div>
-        } @else {
-          <div class="table-panel">
-            <div class="table-head">
-              <span>Latest transactions</span>
-              <button class="btn btn-outline-dark btn-sm">View all</button>
-            </div>
-            <div class="table-responsive">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Description</th>
-                    <th>Category</th>
-                    <th class="text-end">Amount</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @for (txn of state.transactions; track txn.description) {
-                    <tr>
-                      <td>{{ txn.date }}</td>
-                      <td>{{ txn.description }}</td>
-                      <td>{{ txn.category }}</td>
-                      <td class="text-end">
-                        <span class="amount" [class.positive]="txn.amount > 0">
-                          {{ formatAmount(txn.amount) }}
-                        </span>
-                      </td>
-                    </tr>
-                  }
-                </tbody>
-              </table>
-            </div>
-          </div>
-        }
-      </section>
-
-      <section class="goals-reports">
-        <div class="goals">
-          <div class="section-title">
-            <h2>Goals</h2>
-            <p>Track savings and sinking funds.</p>
-          </div>
-          @if (state.goals.length === 0) {
-            <div class="empty-card">
-              <p>No goals yet.</p>
-            </div>
-          } @else {
-            <div class="goal-grid">
-              @for (goal of state.goals; track goal.name) {
-                <div class="goal-card">
-                  <div>
-                    <h3>{{ goal.name }}</h3>
-                    <p class="label">{{ formatMoney(goal.saved) }} saved</p>
-                  </div>
-                  <div class="goal-progress">
-                    <div class="progress-bar">
-                      <span
-                        class="bar ocean"
-                        [style.width.%]="percent(goal.saved, goal.target)"
-                      ></span>
+                <form class="wizard-form" [formGroup]="wizardForm" (ngSubmit)="completeWizard()">
+                    <div>
+                        <label class="form-label">Household name</label>
+                        <input class="form-control" formControlName="householdName" placeholder="Smith Household">
+                        @if (wizardForm.get('householdName')?.touched && wizardForm.get('householdName')?.invalid) {
+                            <div class="form-error">Required.</div>
+                        }
                     </div>
-                    <span>{{ percent(goal.saved, goal.target) }}% of {{ formatMoney(goal.target) }}</span>
-                  </div>
-                </div>
-              }
+                    <div>
+                        <label class="form-label">Primary budget name</label>
+                        <input class="form-control" formControlName="budgetName" placeholder="Family Budget">
+                        @if (wizardForm.get('budgetName')?.touched && wizardForm.get('budgetName')?.invalid) {
+                            <div class="form-error">Required.</div>
+                        }
+                    </div>
+                    <div>
+                        <label class="form-label">Budget style</label>
+                        <select class="form-select" formControlName="budgetStyle">
+                            <option value="">Select one</option>
+                            <option value="Zero-based">Zero-based</option>
+                            <option value="50/30/20">50/30/20</option>
+                            <option value="Envelope">Envelope</option>
+                            <option value="Custom">Custom</option>
+                        </select>
+                        @if (wizardForm.get('budgetStyle')?.touched && wizardForm.get('budgetStyle')?.invalid) {
+                            <div class="form-error">Required.</div>
+                        }
+                    </div>
+                    <div>
+                        <label class="form-label">Budget month</label>
+                        <input class="form-control" formControlName="budgetMonth" placeholder="February 2026">
+                        @if (wizardForm.get('budgetMonth')?.touched && wizardForm.get('budgetMonth')?.invalid) {
+                            <div class="form-error">Required.</div>
+                        }
+                    </div>
+                    <div>
+                        <label class="form-label">Income frequency</label>
+                        <select class="form-select" formControlName="incomeFrequency">
+                            <option value="">Select one</option>
+                            <option value="Monthly">Monthly</option>
+                            <option value="Bi-weekly">Bi-weekly</option>
+                            <option value="Semi-monthly">Semi-monthly</option>
+                            <option value="Weekly">Weekly</option>
+                            <option value="Custom">Custom</option>
+                        </select>
+                        @if (wizardForm.get('incomeFrequency')?.touched && wizardForm.get('incomeFrequency')?.invalid) {
+                            <div class="form-error">Required.</div>
+                        }
+                    </div>
+                    <div>
+                        <label class="form-label">Income amount (per pay period)</label>
+                        <input class="form-control" type="number" formControlName="incomeAmount" placeholder="0">
+                    </div>
+                    <div class="wizard-actions">
+                        <button
+                            class="btn btn-primary btn-lg"
+                            type="submit"
+                            [disabled]="wizardForm.invalid || wizardForm.disabled"
+                        >
+                            Save and continue
+                        </button>
+                        <button class="btn btn-outline-dark btn-lg" type="button" (click)="resetState()">
+                            Start over
+                        </button>
+                    </div>
+                </form>
             </div>
-          }
-        </div>
-        <div class="reports">
-          <div class="section-title">
-            <h2>Report snapshots</h2>
-            <p>Metrics will appear after data entry.</p>
-          </div>
-          @if (state.reports.length === 0) {
-            <div class="empty-card dark">
-              <p>No reports yet.</p>
-            </div>
-          } @else {
-            <div class="report-stack">
-              @for (report of state.reports; track report.label) {
-                <div class="report-card">
-                  <div>
-                    <p class="label">{{ report.label }}</p>
-                    <h3>{{ report.value }}</h3>
-                  </div>
-                  <span class="report-hint">{{ report.hint }}</span>
-                </div>
-              }
-            </div>
-          }
-        </div>
-      </section>
-    }
-  </main>
+        </section>
+    </main>
 </div>
+
+<app-footer></app-footer>

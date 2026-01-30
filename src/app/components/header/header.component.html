@@ -1,0 +1,15 @@
+<header class="d-flex align-items-start justify-content-between flex-column align-items-md-center flex-md-row gap-3">
+    <div class="brand">
+        <span class="brand-mark"></span>
+        <div class="brand-text">
+            <span class="brand-name">{{ state?.brand || 'Unknown' }}</span>
+            <span class="brand-sub">Personal budget workspace</span>
+        </div>
+    </div>
+    <div class="top-actions">
+        <div class="household-pill">
+            <span class="dot"></span>
+            {{ state?.householdName || 'No household yet' }}
+        </div>
+    </div>
+</header>

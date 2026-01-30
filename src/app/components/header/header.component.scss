@@ -1,0 +1,61 @@
+.top-bar {
+
+    @media (max-width: 640px) {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.brand-mark {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    background: conic-gradient(from 210deg, #F08C6B, #2B59C3, #59C9A5, #F08C6B);
+    box-shadow: 0 12px 30px rgba(43, 89, 195, 0.25);
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.brand-name {
+    font-size: 1.35rem;
+}
+
+.brand-sub {
+    font-size: 0.85rem;
+    color: var(--ink-500);
+}
+
+.top-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.household-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(15, 17, 21, 0.1);
+    font-size: 0.9rem;
+
+    .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #59C9A5;
+        box-shadow: 0 0 0 4px rgba(89, 201, 165, 0.2);
+    }
+}
