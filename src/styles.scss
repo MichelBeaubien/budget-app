@@ -1,1 +1,49 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+    color-scheme: light;
+    --ink-900: #0F1115;
+    --ink-700: #2A2E36;
+    --ink-500: #4A5160;
+    --ink-300: #7A8498;
+    --cream: #F6F2EA;
+    --sand: #EFE6D8;
+    --peach: #F4C7A5;
+    --coral: #F08C6B;
+    --ocean: #2B59C3;
+    --mint: #59C9A5;
+    --glow: rgba(43, 89, 195, 0.12);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+    background: radial-gradient(circle at 15% 15%, rgba(240, 140, 107, 0.25), transparent 50%),
+    radial-gradient(circle at 85% 25%, rgba(43, 89, 195, 0.18), transparent 55%),
+    linear-gradient(120deg, #F8F4EE 0%, #F1EDE4 35%, #F9F5EF 100%);
+    color: var(--ink-900);
+    min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: 'Fraunces', serif;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.text-muted {
+    color: var(--ink-500);
+}
