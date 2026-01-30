@@ -1,0 +1,83 @@
+.setup-card {
+    padding: 28px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(15, 17, 21, 0.1);
+    box-shadow: 0 24px 40px rgba(43, 89, 195, 0.12);
+    display: grid;
+    gap: 24px;
+}
+
+.setup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 0.75rem;
+    color: var(--ink-300);
+    margin-bottom: 12px;
+}
+
+.lead {
+    font-size: 1.05rem;
+    color: var(--ink-700);
+    max-width: 620px;
+}
+
+.setup-summary h2,
+.empty-categories h2 {
+    font-family: 'Fraunces', serif;
+    margin-bottom: 10px;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.summary-card {
+    padding: 16px;
+    border-radius: 16px;
+    background: #F6F2EA;
+}
+
+.summary-card .label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-300);
+}
+
+.tip-card {
+    margin-top: 16px;
+    padding: 16px;
+    border-radius: 16px;
+    background: rgba(43, 89, 195, 0.12);
+    color: #1D3D84;
+}
+
+.tip-card ul {
+    margin: 8px 0 0;
+    padding-left: 18px;
+}
+
+.empty-categories {
+    padding: 16px;
+    border-radius: 16px;
+    border: 1px dashed rgba(15, 17, 21, 0.2);
+    color: var(--ink-500);
+}
+
+@media (max-width: 640px) {
+    .setup-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
