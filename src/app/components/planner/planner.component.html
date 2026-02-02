@@ -1,38 +1,49 @@
-<form class="planner-card" [formGroup]="plannerForm" (ngSubmit)="savePlanner()">
-    <div class="planner-header">
-        <p class="eyebrow">Bills first</p>
-        <h1>Plan your month</h1>
-        <p class="lead">Start with income, then list bills. We'll show what is left to spend.</p>
-    </div>
+<form class="card" [formGroup]="plannerForm" (ngSubmit)="savePlanner()">
+    <div class="card-body">
+        <div class="mb-4">
+            <p class="eyebrow">Bills first</p>
+            <h1 class="m-0">Plan your month</h1>
+            <p class="lead">Start with income, then list bills. We'll show what is left to spend.</p>
+        </div>
 
-    <div class="planner-grid">
-        <div class="planner-field">
-            <label class="planner-label" for="month">Budget month</label>
-            <input class="planner-input" id="month" type="month" formControlName="month">
-            @if (plannerForm.get('month')?.touched && plannerForm.get('month')?.invalid) {
-                <div class="form-error">Required.</div>
-            }
+        <div class="row g-4">
+            <div class="col-md-4">
+                <label class="form-label" for="budgetMonth">Budget month</label>
+                <input class="form-control" id="budgetMonth" type="month" formControlName="budgetMonth">
+                @if (plannerForm.get('budgetMonth')?.touched && plannerForm.get('budgetMonth')?.invalid) {
+                    <div class="form-error">Required.</div>
+                }
+            </div>
+            <div class="col-md-4">
+                <label class="form-label" for="incomeFrequency">Income frequency</label>
+                <select class="form-control" id="incomeFrequency" formControlName="incomeFrequency">
+                    <option value="">Select one</option>
+                    <option value="Monthly">Monthly</option>
+                    <option value="Bi-weekly">Bi-weekly</option>
+                    <option value="Semi-monthly">Semi-monthly</option>
+                    <option value="Weekly">Weekly</option>
+                </select>
+                @if (plannerForm.get('incomeFrequency')?.touched && plannerForm.get('incomeFrequency')?.invalid) {
+                    <div class="form-error">Required.</div>
+                }
+            </div>
+            <div class="col-md-4">
+                <label class="form-label" for="incomeAmount">Income amount (per pay period)</label>
+                <input class="form-control" id="incomeAmount" type="number" formControlName="incomeAmount">
+                @if (plannerForm.get('incomeAmount')?.touched && plannerForm.get('incomeAmount')?.invalid) {
+                    <div class="form-error">
+                        @if (plannerForm.get('incomeAmount')?.hasError('required')) {
+                            Required.
+                        } @else if (plannerForm.get('incomeAmount')?.hasError('min')) {
+                            Must be greater than 0.
+                        }
+                    </div>
+                }
+            </div>
         </div>
-        <div class="planner-field">
-            <label class="planner-label" for="incomeFrequency">Income frequency</label>
-            <select class="planner-input" id="incomeFrequency" formControlName="incomeFrequency">
-                <option value="">Select one</option>
-                <option value="Monthly">Monthly</option>
-                <option value="Bi-weekly">Bi-weekly</option>
-                <option value="Semi-monthly">Semi-monthly</option>
-                <option value="Weekly">Weekly</option>
-            </select>
-            @if (plannerForm.get('incomeFrequency')?.touched && plannerForm.get('incomeFrequency')?.invalid) {
-                <div class="form-error">Required.</div>
-            }
-        </div>
-        <div class="planner-field">
-            <label class="planner-label" for="incomeAmount">Income amount (per pay period)</label>
-            <input class="planner-input" id="incomeAmount" type="number" formControlName="incomeAmount">
-        </div>
-    </div>
 
-    <div class="planner-actions">
-        <button class="btn btn-primary" type="submit">Save planner</button>
+        <div class="d-flex justify-content-end mt-4">
+            <button class="btn btn-primary" type="submit">Save planner</button>
+        </div>
     </div>
 </form>
