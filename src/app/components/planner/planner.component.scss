@@ -1,39 +1,27 @@
 .planner-card {
+    background: var(--surface-100);
     border: 1px solid var(--surface-300);
     border-radius: 20px;
     box-shadow: 0 16px 32px rgba(15, 23, 42, 0.08);
-}
-
-.planner-body {
     display: grid;
-    gap: 20px;
+    gap: 24px;
+    padding: 28px;
 }
 
-.planner-status {
-    background: var(--accent-100);
-    border-radius: 12px;
-    color: var(--accent-600);
-    font-size: 0.9rem;
-    padding: 10px 12px;
-}
-
-.planner-intro {
+.planner-header {
     display: grid;
     gap: 8px;
 }
 
-.planner-greeting {
-    align-items: baseline;
-    color: var(--ink-900);
-    display: flex;
-    flex-wrap: wrap;
-    font-family: 'IBM Plex Serif', serif;
-    font-size: 2rem;
-    gap: 8px;
+.planner-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
-.planner-dot {
-    color: var(--ink-700);
+.planner-field {
+    display: grid;
+    gap: 6px;
 }
 
 .planner-label {
@@ -41,75 +29,26 @@
     font-weight: 500;
 }
 
-.planner-inline {
-    background: transparent;
-    border: none;
-    border-bottom: 2px solid var(--surface-300);
-    color: inherit;
-    font: inherit;
-    min-width: 160px;
-    padding: 2px 4px;
-
-    &:focus {
-        border-bottom-color: var(--accent-600);
-        outline: none;
-    }
-}
-
-.planner-subtitle {
-    color: var(--ink-700);
-    font-size: 1rem;
-    margin: 0;
-}
-
-.planner-section {
-    display: grid;
-    gap: 6px;
-}
-
-.planner-row {
-    align-items: center;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-
-    .planner-label {
-        min-width: 220px;
-    }
-}
-
-.planner-select {
+.planner-input {
     background: var(--surface-100);
     border: 1px solid var(--surface-300);
-    border-radius: 10px;
+    border-radius: 12px;
+    color: var(--ink-900);
     font: inherit;
-    min-width: 220px;
-    padding: 8px 12px;
+    padding: 10px 12px;
+}
+
+.planner-input:focus {
+    border-color: var(--accent-600);
+    outline: none;
 }
 
 .planner-actions {
     display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 8px;
+    justify-content: flex-start;
 }
 
 .form-error {
     color: #B42318;
     font-size: 0.85rem;
-}
-
-@media (max-width: 720px) {
-    .planner-row {
-        align-items: flex-start;
-
-        .planner-label {
-            min-width: 100%;
-        }
-    }
-
-    .planner-inline,
-    .planner-select {
-        width: 100%;
-    }
 }

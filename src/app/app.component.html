@@ -1,11 +1,5 @@
-@if (state.onboarded) {
-    <app-header [state]="state"></app-header>
-}
-
-<div class="container py-4">
-    <router-outlet></router-outlet>
+<div class="app-shell">
+    <main class="app-main">
+        <router-outlet></router-outlet>
+    </main>
 </div>
-
-@if (state.onboarded) {
-    <app-footer></app-footer>
-}
