@@ -152,8 +152,8 @@ export class BudgetDataService {
     private defaultState(): BudgetAppState {
         return {
             onboarded: false,
-            householdName: 'Beaubien',
-            budgetName: 'Primary Budget',
+            householdName: 'Mike',
+            budgetName: 'Mike\'s Budget',
             budgetMonth: '',
             safeToSpend: 0,
             incomeFrequency: '',

@@ -14,8 +14,8 @@ export class PlannerComponent implements OnInit {
     public hasSaved = false;
 
     public plannerForm = new FormGroup({
-        householdName: new FormControl('Beaubien', { nonNullable: true, validators: [Validators.required] }),
-        budgetName: new FormControl('Primary Budget', { nonNullable: true, validators: [Validators.required] }),
+        householdName: new FormControl('Mike', { nonNullable: true, validators: [Validators.required] }),
+        budgetName: new FormControl('Mike\'s Budget', { nonNullable: true, validators: [Validators.required] }),
         budgetMonth: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
         incomeFrequency: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
         incomeAmount: new FormControl(0, { nonNullable: true, validators: [Validators.min(0)] })
@@ -58,8 +58,8 @@ export class PlannerComponent implements OnInit {
     public resetPlanner(): void {
         this.dataService.reset();
         this.plannerForm.reset({
-            householdName: 'Beaubien',
-            budgetName: 'Primary Budget',
+            householdName: 'Mike',
+            budgetName: 'Mike\'s Budget',
             budgetMonth: this.currentMonthValue(),
             incomeFrequency: '',
             incomeAmount: 0
@@ -69,8 +69,8 @@ export class PlannerComponent implements OnInit {
 
     private syncForm(state: BudgetAppState): void {
         this.plannerForm.patchValue({
-            householdName: state.householdName || 'Beaubien',
-            budgetName: state.budgetName || 'Primary Budget',
+            householdName: state.householdName || 'Mike',
+            budgetName: state.budgetName || 'Mike\'s Budget',
             budgetMonth: state.budgetMonth || this.currentMonthValue(),
             incomeFrequency: state.incomeFrequency,
             incomeAmount: state.incomeAmount

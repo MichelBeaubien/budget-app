@@ -1,66 +1,92 @@
-<div class="planner-card">
-    <div class="planner-copy">
-        <p class="eyebrow">Planner</p>
-        <h1>Personalize your budget</h1>
-        <p class="lead">
-            Answer the basics so your budget stays accurate.
-        </p>
+<form class="card planner-card" [formGroup]="plannerForm" (ngSubmit)="savePlanner()">
+    <div class="card-body planner-body">
         @if (hasSaved) {
             <div class="planner-status">
                 Planner saved. You can reset to edit.
             </div>
         }
-    </div>
 
-    <form class="planner-form" [formGroup]="plannerForm" (ngSubmit)="savePlanner()">
-        <div class="form-section">
-            <h2>Basics</h2>
-            <div class="form-grid">
-                <div>
-                    <label class="form-label">Household name</label>
-                    <input class="form-control" formControlName="householdName" placeholder="Beaubien">
-                    @if (plannerForm.get('householdName')?.touched && plannerForm.get('householdName')?.invalid) {
-                        <div class="form-error">Required.</div>
-                    }
-                </div>
-                <div>
-                    <label class="form-label">Budget name</label>
-                    <input class="form-control" formControlName="budgetName" placeholder="Primary Budget">
-                    @if (plannerForm.get('budgetName')?.touched && plannerForm.get('budgetName')?.invalid) {
-                        <div class="form-error">Required.</div>
-                    }
-                </div>
-                <div>
-                    <label class="form-label">Budget month</label>
-                    <input class="form-control" type="month" formControlName="budgetMonth">
-                    @if (plannerForm.get('budgetMonth')?.touched && plannerForm.get('budgetMonth')?.invalid) {
-                        <div class="form-error">Required.</div>
-                    }
-                </div>
-                <div>
-                    <label class="form-label">Income frequency</label>
-                    <select class="form-select" formControlName="incomeFrequency">
-                        <option value="">Select one</option>
-                        <option value="Monthly">Monthly</option>
-                        <option value="Bi-weekly">Bi-weekly</option>
-                        <option value="Semi-monthly">Semi-monthly</option>
-                        <option value="Weekly">Weekly</option>
-                        <option value="Custom">Custom</option>
-                    </select>
-                    @if (plannerForm.get('incomeFrequency')?.touched && plannerForm.get('incomeFrequency')?.invalid) {
-                        <div class="form-error">Required.</div>
-                    }
-                </div>
-                <div>
-                    <label class="form-label">Income amount (per pay period)</label>
-                    <input class="form-control" type="number" formControlName="incomeAmount" placeholder="0">
-                </div>
+        <div class="eyebrow">Planner</div>
+
+        <div class="planner-intro">
+            <div class="planner-greeting">
+                <span class="planner-label">Hello,</span>
+                <input
+                    type="text"
+                    id="householdName"
+                    class="planner-inline"
+                    formControlName="householdName"
+                >
             </div>
+            <p class="planner-subtitle">Let's personalize your budget.</p>
+            @if (plannerForm.get('householdName')?.touched && plannerForm.get('householdName')?.invalid) {
+                <div class="form-error">Required.</div>
+            }
+        </div>
+
+        <div class="planner-section">
+            <div class="planner-row">
+                <label class="planner-label" for="budgetName">What do we call your budget?</label>
+                <input type="text"
+                       id="budgetName"
+                       class="planner-inline"
+                       formControlName="budgetName"
+                >
+            </div>
+            @if (plannerForm.get('budgetName')?.touched && plannerForm.get('budgetName')?.invalid) {
+                <div class="form-error">Required.</div>
+            }
+        </div>
+
+        <div class="planner-section">
+            <div class="planner-row">
+                <label class="planner-label" for="budgetMonth">Which month do you plan on starting?</label>
+                <input type="month"
+                       id="budgetMonth"
+                       class="planner-inline"
+                       formControlName="budgetMonth"
+                >
+            </div>
+            @if (plannerForm.get('budgetMonth')?.touched && plannerForm.get('budgetMonth')?.invalid) {
+                <div class="form-error">Required.</div>
+            }
+        </div>
+
+        <div class="planner-section">
+            <div class="planner-row">
+                <label class="planner-label" for="incomeFrequency">Income frequency</label>
+                <select class="planner-select" id="incomeFrequency" formControlName="incomeFrequency">
+                    <option value="">Select one</option>
+                    <option value="Monthly">Monthly</option>
+                    <option value="Bi-weekly">Bi-weekly</option>
+                    <option value="Semi-monthly">Semi-monthly</option>
+                    <option value="Weekly">Weekly</option>
+                    <option value="Custom">Custom</option>
+                </select>
+            </div>
+            @if (plannerForm.get('incomeFrequency')?.touched && plannerForm.get('incomeFrequency')?.invalid) {
+                <div class="form-error">Required.</div>
+            }
+        </div>
+
+        <div class="planner-section">
+            <div class="planner-row">
+                <label class="planner-label" for="incomeAmount">Income amount (per pay period)</label>
+                <input
+                    type="number"
+                    id="incomeAmount"
+                    class="planner-inline"
+                    formControlName="incomeAmount"
+                >
+            </div>
+            @if (plannerForm.get('incomeAmount')?.touched && plannerForm.get('incomeAmount')?.invalid) {
+                <div class="form-error">Required.</div>
+            }
         </div>
 
         <div class="planner-actions">
             <button class="btn btn-primary btn-lg" type="submit">Save planner</button>
             <button class="btn btn-outline-dark btn-lg" type="button" (click)="resetPlanner()">Reset</button>
         </div>
-    </form>
-</div>
+    </div>
+</form>
