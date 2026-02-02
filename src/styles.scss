@@ -1,16 +1,16 @@
 :root {
     color-scheme: light;
-    --ink-900: #0F1115;
-    --ink-700: #2A2E36;
-    --ink-500: #4A5160;
-    --ink-300: #7A8498;
-    --cream: #F6F2EA;
-    --sand: #EFE6D8;
-    --peach: #F4C7A5;
-    --coral: #F08C6B;
-    --ocean: #2B59C3;
-    --mint: #59C9A5;
-    --glow: rgba(43, 89, 195, 0.12);
+    --ink-900: #0F172A;
+    --ink-700: #334155;
+    --ink-500: #64748B;
+    --ink-300: #CBD5E1;
+    --surface-100: #FFFFFF;
+    --surface-200: #F1F5F9;
+    --surface-300: #E2E8F0;
+    --accent-600: #0F766E;
+    --accent-500: #14B8A6;
+    --accent-100: #CCFBF1;
+    --glow: rgba(20, 184, 166, 0.18);
 }
 
 *,
@@ -21,17 +21,15 @@
 
 body {
     margin: 0;
-    font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
-    background: radial-gradient(circle at 15% 15%, rgba(240, 140, 107, 0.25), transparent 50%),
-    radial-gradient(circle at 85% 25%, rgba(43, 89, 195, 0.18), transparent 55%),
-    linear-gradient(120deg, #F8F4EE 0%, #F1EDE4 35%, #F9F5EF 100%);
+    font-family: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(180deg, #F8FAFC 0%, #EEF2F6 100%);
     color: var(--ink-900);
     min-height: 100vh;
 }
 
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
-    font-family: 'Fraunces', serif;
+    font-family: 'IBM Plex Serif', serif;
 }
 
 img {
@@ -46,4 +44,20 @@ a {
 
 .text-muted {
     color: var(--ink-500);
+}
+
+.btn-primary {
+    background-color: var(--accent-600);
+    border-color: var(--accent-600);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: #0B5F57;
+    border-color: #0B5F57;
+}
+
+.btn-outline-dark {
+    border-color: var(--ink-300);
+    color: var(--ink-700);
 }

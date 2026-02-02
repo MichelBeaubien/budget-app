@@ -1,5 +1,4 @@
 .top-bar {
-
     @media (max-width: 640px) {
         align-items: flex-start;
         flex-direction: column;
@@ -16,8 +15,8 @@
     width: 42px;
     height: 42px;
     border-radius: 14px;
-    background: conic-gradient(from 210deg, #F08C6B, #2B59C3, #59C9A5, #F08C6B);
-    box-shadow: 0 12px 30px rgba(43, 89, 195, 0.25);
+    background: conic-gradient(from 210deg, #14B8A6, #0F766E, #38BDF8, #14B8A6);
+    box-shadow: 0 12px 24px rgba(20, 184, 166, 0.2);
 }
 
 .brand-text {
@@ -47,15 +46,15 @@
     gap: 8px;
     padding: 8px 14px;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(15, 17, 21, 0.1);
+    background: var(--surface-100);
+    border: 1px solid var(--surface-300);
     font-size: 0.9rem;
 
     .dot {
         width: 10px;
         height: 10px;
         border-radius: 50%;
-        background: #59C9A5;
-        box-shadow: 0 0 0 4px rgba(89, 201, 165, 0.2);
+        background: var(--accent-500);
+        box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.2);
     }
 }

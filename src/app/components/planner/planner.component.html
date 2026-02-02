@@ -1,81 +1,32 @@
 <div class="planner-card">
-  <div class="planner-copy">
-    <p class="eyebrow">Planner</p>
-    <h1>Personalize your budget</h1>
-    <p class="lead">
-      These questions keep the planner aligned with your real life so the numbers stay accurate.
-    </p>
-    @if (hasSaved) {
-      <div class="planner-status">
-        Planner saved. The next step will unlock once it is ready.
-      </div>
-    }
-  </div>
-
-  <div class="preset-panel">
-    <div>
-      <h3>Quick choices</h3>
-      <p>Pick a full scenario if you do not want to fill every field manually.</p>
+    <div class="planner-copy">
+        <p class="eyebrow">Planner</p>
+        <h1>Personalize your budget</h1>
+        <p class="lead">
+            Answer the basics so your budget stays accurate.
+        </p>
+        @if (hasSaved) {
+            <div class="planner-status">
+                Planner saved. You can reset to edit.
+            </div>
+        }
     </div>
-    <div class="preset-grid" role="radiogroup" aria-label="Quick choices">
-      @for (preset of presets; track preset.id) {
-        <label class="preset-pill">
-          <input
-            type="radio"
-            name="presetId"
-            [value]="preset.id"
-            [(ngModel)]="selectedPresetId"
-            (ngModelChange)="applyPreset()"
-          >
-          <span>{{ preset.label }}</span>
-        </label>
-      }
-    </div>
-  </div>
 
-  <form class="planner-form" [formGroup]="plannerForm" (ngSubmit)="savePlanner()">
+    <form class="planner-form" [formGroup]="plannerForm" (ngSubmit)="savePlanner()">
         <div class="form-section">
             <h2>Basics</h2>
             <div class="form-grid">
                 <div>
                     <label class="form-label">Household name</label>
-                    <input class="form-control" formControlName="householdName" placeholder="Smith Household">
+                    <input class="form-control" formControlName="householdName" placeholder="Beaubien">
                     @if (plannerForm.get('householdName')?.touched && plannerForm.get('householdName')?.invalid) {
                         <div class="form-error">Required.</div>
                     }
                 </div>
                 <div>
-                    <label class="form-label">Primary budget name</label>
-                    <input class="form-control" formControlName="budgetName" placeholder="Family Budget">
+                    <label class="form-label">Budget name</label>
+                    <input class="form-control" formControlName="budgetName" placeholder="Primary Budget">
                     @if (plannerForm.get('budgetName')?.touched && plannerForm.get('budgetName')?.invalid) {
-                        <div class="form-error">Required.</div>
-                    }
-                </div>
-                <div class="style-field">
-                    <label class="form-label">Budget style</label>
-                    <div class="style-grid" role="radiogroup" aria-label="Budget style">
-                        <label class="style-card">
-                            <input type="radio" formControlName="budgetStyle" value="Zero-based">
-                            <span class="style-title">Zero-based</span>
-                            <span class="style-desc">Assign every dollar to a category so income minus expenses equals zero.</span>
-                        </label>
-                        <label class="style-card">
-                            <input type="radio" formControlName="budgetStyle" value="50/30/20">
-                            <span class="style-title">50/30/20</span>
-                            <span class="style-desc">Split income into needs (50%), wants (30%), and savings or debt (20%).</span>
-                        </label>
-                        <label class="style-card">
-                            <input type="radio" formControlName="budgetStyle" value="Envelope">
-                            <span class="style-title">Envelope</span>
-                            <span class="style-desc">Put a fixed amount into each category and stop spending when it is empty.</span>
-                        </label>
-                        <label class="style-card">
-                            <input type="radio" formControlName="budgetStyle" value="Custom">
-                            <span class="style-title">Custom</span>
-                            <span class="style-desc">No preset rules. You decide the targets and structure.</span>
-                        </label>
-                    </div>
-                    @if (plannerForm.get('budgetStyle')?.touched && plannerForm.get('budgetStyle')?.invalid) {
                         <div class="form-error">Required.</div>
                     }
                 </div>
@@ -107,98 +58,9 @@
             </div>
         </div>
 
-        <div class="form-section">
-            <h2>Personal profile</h2>
-            <div class="form-grid">
-                <div>
-                    <label class="form-label">Your home</label>
-                    <select class="form-select" formControlName="homeStatus">
-                        <option value="">Select one</option>
-                        <option value="Homeowner">Homeowner</option>
-                        <option value="Renting">Renting</option>
-                        <option value="Other">Other</option>
-                    </select>
-                    @if (plannerForm.get('homeStatus')?.touched && plannerForm.get('homeStatus')?.invalid) {
-                        <div class="form-error">Required.</div>
-                    }
-                </div>
-                <div>
-                    <label class="form-label">Relationship status</label>
-                    <select class="form-select" formControlName="relationshipStatus">
-                        <option value="">Select one</option>
-                        <option value="Single">Single</option>
-                        <option value="Couple">Couple</option>
-                        <option value="Other">Other</option>
-                    </select>
-                    @if (plannerForm.get('relationshipStatus')?.touched && plannerForm.get('relationshipStatus')?.invalid) {
-                        <div class="form-error">Required.</div>
-                    }
-                </div>
-                <div>
-                    <label class="form-label">Do you have kids?</label>
-                    <select class="form-select" formControlName="hasKids">
-                        <option value="">Select one</option>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                    </select>
-                    @if (plannerForm.get('hasKids')?.touched && plannerForm.get('hasKids')?.invalid) {
-                        <div class="form-error">Required.</div>
-                    }
-                </div>
-                <div>
-                    <label class="form-label">Your work status</label>
-                    <select class="form-select" formControlName="workStatus">
-                        <option value="">Select one</option>
-                        <option value="Part-time or seasonal">Part-time or seasonal</option>
-                        <option value="Full-time">Full-time</option>
-                        <option value="Self-employed">Self-employed</option>
-                        <option value="Student">Student</option>
-                        <option value="Retired">Retired</option>
-                        <option value="Unemployed">Unemployed</option>
-                        <option value="Other">Other</option>
-                    </select>
-                    @if (plannerForm.get('workStatus')?.touched && plannerForm.get('workStatus')?.invalid) {
-                        <div class="form-error">Required.</div>
-                    }
-                </div>
-                <div>
-                    <label class="form-label">Your age range</label>
-                    <select class="form-select" formControlName="ageRange">
-                        <option value="">Select one</option>
-                        <option value="Under 18">Under 18</option>
-                        <option value="18 to 24">18 to 24</option>
-                        <option value="25 to 34">25 to 34</option>
-                        <option value="35 to 44">35 to 44</option>
-                        <option value="45 to 54">45 to 54</option>
-                        <option value="55 to 59">55 to 59</option>
-                        <option value="60 to 64">60 to 64</option>
-                        <option value="65 to 69">65 to 69</option>
-                        <option value="70 and over">70 and over</option>
-                    </select>
-                    @if (plannerForm.get('ageRange')?.touched && plannerForm.get('ageRange')?.invalid) {
-                        <div class="form-error">Required.</div>
-                    }
-                </div>
-                <div>
-                    <label class="form-label">Primary budget goal</label>
-                    <select class="form-select" formControlName="primaryGoal">
-                        <option value="">Select one</option>
-                        <option value="Stay on track">Stay on track</option>
-                        <option value="Save more money">Save more money</option>
-                        <option value="Cut my expenses">Cut my expenses</option>
-                        <option value="Reduce my debt">Reduce my debt</option>
-                        <option value="Create my first budget">Create my first budget</option>
-                    </select>
-                    @if (plannerForm.get('primaryGoal')?.touched && plannerForm.get('primaryGoal')?.invalid) {
-                        <div class="form-error">Required.</div>
-                    }
-                </div>
-            </div>
+        <div class="planner-actions">
+            <button class="btn btn-primary btn-lg" type="submit">Save planner</button>
+            <button class="btn btn-outline-dark btn-lg" type="button" (click)="resetPlanner()">Reset</button>
         </div>
-
-    <div class="planner-actions">
-      <button class="btn btn-primary btn-lg" type="submit">Save planner</button>
-      <button class="btn btn-outline-dark btn-lg" type="button" (click)="resetPlanner()">Reset</button>
-    </div>
-  </form>
+    </form>
 </div>

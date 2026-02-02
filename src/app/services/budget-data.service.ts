@@ -47,20 +47,12 @@ export interface ReportItem {
 
 export interface BudgetAppState {
     onboarded: boolean;
-    brand: string;
     householdName: string;
     budgetName: string;
-    budgetStyle: string;
     budgetMonth: string;
     safeToSpend: number;
     incomeFrequency: string;
     incomeAmount: number;
-    homeStatus: string;
-    relationshipStatus: string;
-    hasKids: string;
-    workStatus: string;
-    ageRange: string;
-    primaryGoal: string;
     onboardingSteps: OnboardingStep[];
     summaryCards: SummaryCard[];
     categories: CategoryPlan[];
@@ -77,19 +69,9 @@ export interface PlannerSummary {
         budgetMonth: string;
     };
     money: {
-        budgetStyle: string;
         incomeFrequency: string;
         incomeAmount: number;
     };
-    profile: {
-        homeStatus: string;
-        relationshipStatus: string;
-        hasKids: string;
-        workStatus: string;
-        ageRange: string;
-        primaryGoal: string;
-    };
-    tips: string[];
 }
 
 const STORAGE_KEY = 'budget-app-state:v2';
@@ -126,36 +108,6 @@ export class BudgetDataService {
 
     public getPlannerSummary(): PlannerSummary {
         const state = this.getState();
-        const tips: string[] = [];
-
-        if (state.budgetStyle) {
-            tips.push(`Budget style: ${state.budgetStyle}.`);
-        }
-
-        if (state.incomeFrequency && state.incomeAmount > 0) {
-            tips.push(`Income is ${state.incomeFrequency} at $${state.incomeAmount.toLocaleString('en-US')}.`);
-        }
-
-        if (state.primaryGoal) {
-            tips.push(`Primary goal: ${state.primaryGoal}.`);
-        }
-
-        if (state.homeStatus === 'Renting') {
-            tips.push('Consider adding Rent and Utilities categories first.');
-        }
-
-        if (state.homeStatus === 'Homeowner') {
-            tips.push('Consider adding Mortgage, Insurance, and Maintenance categories.');
-        }
-
-        if (state.hasKids === 'Yes') {
-            tips.push('Consider adding Childcare and Education categories.');
-        }
-
-        if (state.workStatus === 'Self-employed') {
-            tips.push('Consider a Taxes category for quarterly or annual payments.');
-        }
-
         return {
             identity: {
                 householdName: state.householdName,
@@ -163,19 +115,9 @@ export class BudgetDataService {
                 budgetMonth: state.budgetMonth
             },
             money: {
-                budgetStyle: state.budgetStyle,
                 incomeFrequency: state.incomeFrequency,
                 incomeAmount: state.incomeAmount
-            },
-            profile: {
-                homeStatus: state.homeStatus,
-                relationshipStatus: state.relationshipStatus,
-                hasKids: state.hasKids,
-                workStatus: state.workStatus,
-                ageRange: state.ageRange,
-                primaryGoal: state.primaryGoal
-            },
-            tips
+            }
         };
     }
 
@@ -210,20 +152,12 @@ export class BudgetDataService {
     private defaultState(): BudgetAppState {
         return {
             onboarded: false,
-            brand: 'Budget Forge',
-            householdName: '',
-            budgetName: '',
-            budgetStyle: '',
+            householdName: 'Beaubien',
+            budgetName: 'Primary Budget',
             budgetMonth: '',
             safeToSpend: 0,
             incomeFrequency: '',
             incomeAmount: 0,
-            homeStatus: '',
-            relationshipStatus: '',
-            hasKids: '',
-            workStatus: '',
-            ageRange: '',
-            primaryGoal: '',
             onboardingSteps: [],
             summaryCards: [],
             categories: [],
@@ -236,30 +170,14 @@ export class BudgetDataService {
 
 
     private normalizeState(state: BudgetAppState): BudgetAppState {
-        const legacyLife = (state as { lifeSituation?: string }).lifeSituation || '';
-        const derivedHasKids = legacyLife.includes('kids') ? 'Yes' : '';
-        const derivedRelationship = legacyLife.includes('Single')
-            ? 'Single'
-            : legacyLife.includes('Couple')
-                ? 'Couple'
-                : '';
-
         return {
             onboarded: Boolean(state.onboarded),
-            brand: state.brand || 'Budget Forge',
-            householdName: state.householdName || '',
-            budgetName: state.budgetName || '',
-            budgetStyle: state.budgetStyle || '',
+            householdName: state.householdName || 'Beaubien',
+            budgetName: state.budgetName || 'Primary Budget',
             budgetMonth: state.budgetMonth || '',
             safeToSpend: Number.isFinite(state.safeToSpend) ? state.safeToSpend : 0,
             incomeFrequency: state.incomeFrequency || '',
             incomeAmount: Number.isFinite(state.incomeAmount) ? state.incomeAmount : 0,
-            homeStatus: state.homeStatus || '',
-            relationshipStatus: state.relationshipStatus || derivedRelationship,
-            hasKids: state.hasKids || derivedHasKids,
-            workStatus: state.workStatus || '',
-            ageRange: state.ageRange || '',
-            primaryGoal: state.primaryGoal || '',
             onboardingSteps: Array.isArray(state.onboardingSteps) ? state.onboardingSteps : [],
             summaryCards: Array.isArray(state.summaryCards) ? state.summaryCards : [],
             categories: Array.isArray(state.categories) ? state.categories : [],

@@ -1,31 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { createPlannerForm, PlannerPreset, PlannerPresetId, PLANNER_PRESETS } from '../../helpers/quick-planner';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BudgetAppState, BudgetDataService } from '../../services/budget-data.service';
 
 @Component({
     selector: 'app-planner',
     standalone: true,
-    imports: [FormsModule, ReactiveFormsModule],
+    imports: [ReactiveFormsModule],
     templateUrl: './planner.component.html',
     styleUrl: './planner.component.scss'
 })
 export class PlannerComponent implements OnInit {
     public hasSaved = false;
 
-    public presets: PlannerPreset[] = PLANNER_PRESETS;
-
-    public selectedPresetId: PlannerPresetId | null = null;
-
-    public readonly budgetStyleDescriptions: Record<string, string> = {
-        'Zero-based': 'Assign every dollar to a category so income minus expenses equals zero.',
-        '50/30/20': 'Split income into needs (50%), wants (30%), and savings or debt (20%).',
-        Envelope: 'Put a fixed amount into each category and stop spending when it is empty.',
-        Custom: 'No preset rules. You decide the targets and structure.'
-    };
-
-    public plannerForm = createPlannerForm();
+    public plannerForm = new FormGroup({
+        householdName: new FormControl('Beaubien', { nonNullable: true, validators: [Validators.required] }),
+        budgetName: new FormControl('Primary Budget', { nonNullable: true, validators: [Validators.required] }),
+        budgetMonth: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+        incomeFrequency: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+        incomeAmount: new FormControl(0, { nonNullable: true, validators: [Validators.min(0)] })
+    });
 
     public constructor(
         private dataService: BudgetDataService,
@@ -43,7 +37,6 @@ export class PlannerComponent implements OnInit {
     public savePlanner(): void {
         if (this.plannerForm.invalid) {
             this.plannerForm.markAllAsTouched();
-
             return;
         }
 
@@ -52,16 +45,9 @@ export class PlannerComponent implements OnInit {
             onboarded: true,
             householdName: value.householdName,
             budgetName: value.budgetName,
-            budgetStyle: value.budgetStyle,
             budgetMonth: value.budgetMonth,
             incomeFrequency: value.incomeFrequency,
-            incomeAmount: Number(value.incomeAmount) || 0,
-            homeStatus: value.homeStatus,
-            relationshipStatus: value.relationshipStatus,
-            hasKids: value.hasKids,
-            workStatus: value.workStatus,
-            ageRange: value.ageRange,
-            primaryGoal: value.primaryGoal
+            incomeAmount: Number(value.incomeAmount) || 0
         });
 
         this.syncForm(next);
@@ -71,74 +57,30 @@ export class PlannerComponent implements OnInit {
 
     public resetPlanner(): void {
         this.dataService.reset();
-
         this.plannerForm.reset({
-            householdName: '',
-            budgetName: '',
-            budgetStyle: '',
-            budgetMonth: '',
+            householdName: 'Beaubien',
+            budgetName: 'Primary Budget',
+            budgetMonth: this.currentMonthValue(),
             incomeFrequency: '',
-            incomeAmount: 0,
-            homeStatus: '',
-            relationshipStatus: '',
-            hasKids: '',
-            workStatus: '',
-            ageRange: '',
-            primaryGoal: ''
+            incomeAmount: 0
         });
-        this.selectedPresetId = null;
         this.hasSaved = false;
     }
 
-    public applyPreset(): void {
-        const preset = this.presets.find((item) => item.id === this.selectedPresetId);
-        if (!preset) {
-            return;
-        }
-        this.plannerForm.reset(preset.values);
-    }
-
-    public get budgetStyleNote(): string {
-        const style = this.plannerForm.get('budgetStyle')?.value ?? '';
-
-        return this.budgetStyleDescriptions[style] ?? '';
-    }
-
     private syncForm(state: BudgetAppState): void {
-        if (!this.hasPlannerData(state)) {
-            return;
-        }
         this.plannerForm.patchValue({
-            householdName: state.householdName,
-            budgetName: state.budgetName,
-            budgetStyle: state.budgetStyle,
-            budgetMonth: state.budgetMonth,
+            householdName: state.householdName || 'Beaubien',
+            budgetName: state.budgetName || 'Primary Budget',
+            budgetMonth: state.budgetMonth || this.currentMonthValue(),
             incomeFrequency: state.incomeFrequency,
-            incomeAmount: state.incomeAmount,
-            homeStatus: state.homeStatus,
-            relationshipStatus: state.relationshipStatus,
-            hasKids: state.hasKids,
-            workStatus: state.workStatus,
-            ageRange: state.ageRange,
-            primaryGoal: state.primaryGoal
+            incomeAmount: state.incomeAmount
         });
     }
 
-    private hasPlannerData(state: BudgetAppState): boolean {
-        return Boolean(
-            state.onboarded ||
-            state.householdName ||
-            state.budgetName ||
-            state.budgetStyle ||
-            state.budgetMonth ||
-            state.incomeFrequency ||
-            state.incomeAmount ||
-            state.homeStatus ||
-            state.relationshipStatus ||
-            state.hasKids ||
-            state.workStatus ||
-            state.ageRange ||
-            state.primaryGoal
-        );
+    private currentMonthValue(): string {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        return `${year}-${month}`;
     }
 }

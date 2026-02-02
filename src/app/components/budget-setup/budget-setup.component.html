@@ -1,51 +1,20 @@
 <div class="setup-card">
     <div class="setup-header">
         <div>
-            <p class="eyebrow">Next step</p>
-            <h1>Build your first categories</h1>
-            <p class="lead">Start with the basics and expand as you go.</p>
+            <p class="eyebrow">Budget</p>
+            <h1>{{ summary?.identity?.budgetName || 'Primary Budget' }}</h1>
+            <p class="lead">Build categories and targets from here.</p>
         </div>
         <a class="btn btn-outline-dark" routerLink="/">Back to planner</a>
     </div>
 
     <div class="setup-summary">
-        <h2>Planner summary</h2>
-        @if (summary) {
-            <div class="summary-grid">
-                <div class="summary-card">
-                    <p class="label">Household</p>
-                    <h3>{{ summary.identity.householdName || '—' }}</h3>
-                    <span>{{ summary.identity.budgetName || 'Budget not named yet' }}</span>
-                </div>
-                <div class="summary-card">
-                    <p class="label">Budget month</p>
-                    <h3>{{ summary.identity.budgetMonth || '—' }}</h3>
-                    <span>Planning period</span>
-                </div>
-                <div class="summary-card">
-                    <p class="label">Income</p>
-                    <h3>${{ summary.money.incomeAmount | number:'1.0-0' }}</h3>
-                    <span>{{ summary.money.incomeFrequency || 'Frequency not set' }}</span>
-                </div>
-                <div class="summary-card">
-                    <p class="label">Primary goal</p>
-                    <h3>{{ summary.profile.primaryGoal || '—' }}</h3>
-                    <span>{{ summary.money.budgetStyle || 'Budget style not set' }}</span>
-                </div>
-            </div>
-
-            @if (effects.length) {
-                <div class="tip-card">
-                    <h3>Planner-driven sections</h3>
-                    <p>These sections appear because of your planner answers.</p>
-                    <ul>
-                        @for (effect of effects; track effect) {
-                            <li>{{ effect }}</li>
-                        }
-                    </ul>
-                </div>
-            }
-        }
+        <div class="summary-banner">
+            <span>Planner overview</span>
+            <strong>{{ summary?.identity?.householdName || 'Beaubien' }} · {{ summary?.identity?.budgetMonth || '—' }}</strong>
+            <span>{{ summary?.money?.incomeFrequency || 'Income frequency not set' }} ·
+                ${{ summary?.money?.incomeAmount | number:'1.0-0' }}</span>
+        </div>
     </div>
 
     <div class="empty-categories">
